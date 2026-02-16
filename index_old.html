@@ -1,0 +1,549 @@
+<!--公会成员WinRTAS制作（实际全部AI），xiehui几把炉渣了-->
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Guild</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-indigo-100 selection:text-indigo-700">
+
+    <header
+        class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo(0,0)">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-900 via-neutral-800 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-amber-500/20 group-hover:shadow-amber-500/40 transition-all duration-300 group-hover:scale-105">
+                        <img src="./assets/icon.png" alt="Logo">
+                    </div>
+                    <span
+                        class="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">
+                        Race 公会
+                    </span>
+                </div>
+
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#features"
+                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors relative group py-2">
+                        入会要求
+                        <span
+                            class="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                    </a>
+                    <a href="#history"
+                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors relative group py-2">
+                        历任会长
+                        <span
+                            class="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                    </a>
+                    <a href="#members"
+                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors relative group py-2">
+                        主力成员
+                        <span
+                            class="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                    </a>
+                    <a href="#media"
+                        class="px-5 py-2.5 text-sm font-medium text-white bg-slate-900 rounded-full hover:bg-slate-800 transition-all hover:shadow-lg hover:shadow-slate-900/20 active:scale-95">
+                        相关媒体
+                    </a>
+                </nav>
+
+                <div class="md:hidden flex items-center">
+                    <button class="text-slate-500 hover:text-indigo-600 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-16">
+
+        <section id="hero" class="relative overflow-hidden py-24 sm:py-32">
+            <div class="absolute inset-0 -z-10">
+                <div
+                    class="absolute top-0 right-0 -mr-40 -mt-20 w-[600px] h-[600px] bg-indigo-50 rounded-full blur-3xl opacity-50 animate-pulse">
+                </div>
+                <div
+                    class="absolute bottom-0 left-0 -ml-40 -mb-20 w-[600px] h-[600px] bg-violet-50 rounded-full blur-3xl opacity-50">
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-sm font-medium mb-8">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </span>
+                    🎉 火热招人中 🎉
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-8">
+                    加入 <span
+                        class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600">Race
+                        公会</span> <br class="hidden sm:block" />
+                </h1>
+                <p class="mt-6 text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    florr.io的一个公会，不算pro，不太noob。现在活跃人数约60人（寒假每天上线）但都小pro（around
+                    lvl130）。不爱farm，喜欢抢su。实力小强，氛围极佳，喜欢边打qq电话，边一起抢s的一定适合你摸摸哒~~~
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#features"
+                        class="px-8 py-3.5 text-base font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 hover:-translate-y-0.5">
+                        加入我们
+                    </a>
+                    <a href="#history"
+                        class="px-8 py-3.5 text-base font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm hover:shadow hover:-translate-y-0.5">
+                        公会简介
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="py-24 bg-white/50 backdrop-blur-sm border-y border-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-indigo-600 font-semibold uppercase tracking-wider text-sm mb-3">加入我们这个神人公会你这辈子有了👍
+                    </h2>
+                    <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">入会要求</h3>
+                    <p class="text-slate-600 text-white">你怎么会看到这行字</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div
+                        class="group p-8 rounded-2xl bg-white border border-slate-100 hover:border-indigo-100 shadow-sm hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-900 mb-3">必选项</h4>
+                        <p class="text-slate-600 leading-relaxed">
+                            1.lv120+<br />2.3+ububble<br />3.每周末活跃度1h+/day<br />4.打super假人dps至少达到400k</p>
+                    </div>
+
+                    <div
+                        class="group p-8 rounded-2xl bg-white border border-slate-100 hover:border-violet-100 shadow-sm hover:shadow-xl hover:shadow-violet-500/10 transition-all duration-300">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center mb-6 group-hover:bg-violet-600 group-hover:text-white transition-colors duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.85 6.361a15.996 15.996 0 00-4.647 4.763m0 0a15.998 15.998 0 00-1.619 3.384m-4.225-.027a15.993 15.993 0 01-3.376 1.62m9.22 0a15.994 15.994 0 002.583 3.356c1.61 1.624 3.916 1.95 5.61 1.257 1.258-.515 1.583-2.316.402-3.153a6.002 6.002 0 00-8.6-2.459h.001z" />
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-900 mb-3">可选项</h4>
+                        <p class="text-slate-600 leading-relaxed">1.拥有super<br />2.拥有良好的抢S经验（S图鉴30+
+                            个数100+）<br />3.拥有良好的配装（前、后期跑路、回血、炸血等）<br />4.U种类丰富（60U种+）</p>
+                    </div>
+
+                    <div
+                        class="group p-8 rounded-2xl bg-white border border-slate-100 hover:border-pink-100 shadow-sm hover:shadow-xl hover:shadow-pink-500/10 transition-all duration-300">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-pink-50 text-pink-600 flex items-center justify-center mb-6 group-hover:bg-pink-600 group-hover:text-white transition-colors duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.546-3.131 1.567-4.382" />
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-900 mb-3">严禁</h4>
+                        <p class="text-slate-600 leading-relaxed">
+                            1.恶意在会内吵架等不利于公会团结的事<br />2.开会内成员的户（这个发现直接t）<br />3.开玩笑过头</p>
+                    </div>
+                </div>
+
+                <div class="mt-16 flex flex-col items-center gap-8">
+                    <div class="flex flex-wrap justify-center gap-6">
+                        <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=COkn1Qme8cTWDY2DuP78cinssecMq%2BZJvT5OTlt49SSvFjyXlrRSnCDf6pTVX/OL&busi_data=eyJncm91cENvZGUiOiIxMDYzNDU5NDU0IiwidG9rZW4iOiJYeEQ4OTVlWjZQTktnSzNmR3c5UE91QjlMQXV2SWIxQldkWFBMYkVuMUdjalBEeUhQeUlkQU9tVlVrVE5ZblMrIiwidWluIjoiMzk0NjE0NTQ1MCJ9&data=_yvvkbJg9Njp_ASubd_uFAM7-pEtkDtD5h2bz_6lF2ISuFXwnqOzmHlZ2A3ksR19VRRbcx1xEew8RYLeD6iSGA&svctype=4&tempid=h5_group_info"
+                            target="_blank"
+                            class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-slate-900 font-lg rounded-xl hover:bg-slate-800 hover:shadow-lg hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900">
+                            <span>通过 QQ 入会</span>
+                            <svg class="w-5 h-5 ml-2 -mr-1 transition-transform group-hover:translate-x-1" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                </path>
+                            </svg>
+                        </a>
+
+                        <button onclick="document.getElementById('embed-container').classList.toggle('hidden')"
+                            class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-gradient-to-r from-indigo-600 to-violet-600 font-lg rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                            <span>填写表单加群</span>
+                            <svg class="w-5 h-5 ml-2 -mr-1 transition-transform group-hover:rotate-180" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="embed-container" class="hidden w-full max-w-4xl transition-all duration-500 ease-in-out">
+                        <div
+                            class="relative w-full h-[500px] bg-slate-100 rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
+                            <div class="absolute inset-0 flex items-center justify-center text-slate-400">
+                                <p>正在加载...</p>
+                            </div>
+                            <iframe src="https://wj.qq.com/s2/25765772/f782/" class="relative z-10 w-full h-full"
+                                frameborder="0"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+        </section>
+
+        <section id="history" class="py-24 bg-slate-50 relative overflow-hidden">
+            <div class="absolute top-1/2 left-0 -translate-y-1/2 w-full h-64 bg-slate-100 skew-y-3"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span
+                        class="inline-block px-3 py-1 text-xs font-semibold tracking-wider text-indigo-100 uppercase bg-indigo-600 rounded-full mb-4">Guild
+                        History</span>
+                    <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">公会简介：历任会长</h3>
+                    <p class="text-slate-600 text-lg">Race 公会的辉煌历史与领路人</p>
+                </div>
+
+                <div class="relative">
+                    <div
+                        class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-indigo-200 hidden md:block">
+                    </div>
+
+                    <div class="space-y-12">
+                        <div class="relative flex flex-col md:flex-row items-center justify-between">
+                            <div
+                                class="md:w-5/12 text-center md:text-right p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                                <h4 class="text-xl font-bold text-indigo-600">Phoenixes</h4>
+                                <span class="text-sm text-slate-400 font-medium tracking-wider uppercase">创始人</span>
+                                <p class="mt-2 text-slate-600">创始人，绝版人物。</p>
+                            </div>
+                            <div
+                                class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-indigo-500 border-4 border-white shadow hidden md:block">
+                            </div>
+                            <div class="md:w-5/12"></div>
+                        </div>
+
+                        <div class="relative flex flex-col md:flex-row items-center justify-between">
+                            <div class="md:w-5/12"></div>
+                            <div
+                                class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-violet-500 border-4 border-white shadow hidden md:block">
+                            </div>
+                            <div
+                                class="md:w-5/12 text-center md:text-left p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                                <h4 class="text-xl font-bold text-violet-600">ericccccccccc</h4>
+                                <span class="text-sm text-slate-400 font-medium tracking-wider uppercase">奠基人</span>
+                                <p class="mt-2 text-slate-600">公会规模与正规性的建立者，建立了公会首个qq群，邀请了许多现在的主力成员。</p>
+                            </div>
+                        </div>
+
+                        <div class="relative flex flex-col md:flex-row items-center justify-between">
+                            <div
+                                class="md:w-5/12 text-center md:text-right p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                                <h4 class="text-xl font-bold text-blue-600">wlzcn</h4>
+                                <span class="text-sm text-slate-400 font-medium tracking-wider uppercase">见证者</span>
+                                <p class="mt-2 text-slate-600">热爱带人，见证了eric破lvl100，lvl90出s的gyg。</p>
+                            </div>
+                            <div
+                                class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-blue-500 border-4 border-white shadow hidden md:block">
+                            </div>
+                            <div class="md:w-5/12"></div>
+                        </div>
+
+                        <div class="relative flex flex-col md:flex-row items-center justify-between">
+                            <div class="md:w-5/12"></div>
+                            <div
+                                class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-amber-500 border-4 border-white shadow hidden md:block">
+                            </div>
+                            <div
+                                class="md:w-5/12 text-center md:text-left p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                                <h4 class="text-xl font-bold text-amber-600">88888</h4>
+                                <span class="text-sm text-slate-400 font-medium tracking-wider uppercase">早期Pro</span>
+                                <p class="mt-2 text-slate-600">公会早期的pro，为公会的前期实力发展做出巨大贡献，接任会长后成就不知。</p>
+                            </div>
+                        </div>
+
+                        <div class="relative flex flex-col md:flex-row items-center justify-between">
+                            <div
+                                class="md:w-5/12 text-center md:text-right p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                                <h4 class="text-xl font-bold text-pink-600">hupangflorr</h4>
+                                <span class="text-sm text-slate-400 font-medium tracking-wider uppercase">强盛缔造者</span>
+                                <p class="mt-2 text-slate-600">公会强盛时期的缔造者，在他的带领下经历了主力人员lvl110-130的转变。</p>
+                            </div>
+                            <div
+                                class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-pink-500 border-4 border-white shadow hidden md:block">
+                            </div>
+                            <div class="md:w-5/12"></div>
+                        </div>
+
+                        <div class="relative flex flex-col md:flex-row items-center justify-between">
+                            <div class="md:w-5/12"></div>
+                            <div
+                                class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-slate-800 border-4 border-white shadow hidden md:block">
+                            </div>
+                            <div
+                                class="md:w-5/12 text-center md:text-left p-6 bg-slate-900 rounded-2xl shadow-lg border border-slate-800 transform scale-105">
+                                <h4 class="text-xl font-bold text-white">xiehui</h4>
+                                <span class="text-sm text-slate-400 font-medium tracking-wider uppercase">现任会长</span>
+                                <p class="mt-2 text-slate-300">现役会长，一个倒霉透顶的noob（悲）。</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="members" class="py-24 bg-slate-900 text-white relative overflow-hidden">
+            <div class="absolute inset-0 opacity-20"
+                style="background-image: radial-gradient(#6366f1 1px, transparent 1px); background-size: 32px 32px;">
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h3
+                        class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-violet-400 mb-6">
+                        公会简介：主力成员</h3>
+                    <p class="text-slate-400">Race 公会的中流砥柱</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div
+                        class="group p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:-translate-y-1">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-lg font-bold">
+                                X</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white">xiehui</h4>
+                                <span class="text-xs text-indigo-400 bg-indigo-900/30 px-2 py-0.5 rounded">Cute</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Race出名人物，被艾瑞克拉入会，和固排higg、deama等人辅助会长建立Race鼎盛时期。</p>
+                    </div>
+
+                    <div
+                        class="group p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:-translate-y-1">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-lg font-bold">
+                                H</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white">hupangflorr</h4>
+                                <span class="text-xs text-pink-400 bg-pink-900/30 px-2 py-0.5 rounded">老资历</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">零氪劳玩家，小地图时期入坑，在b站多更新florr内容。只周末上线，住读学校黑奴（悲）。
+                        </p>
+                    </div>
+
+                    <div
+                        class="group p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:-translate-y-1">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-lg font-bold">
+                                H</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white">higgest</h4>
+                                <span class="text-xs text-green-400 bg-green-900/30 px-2 py-0.5 rounded">GYG</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">S葡萄gygygyg。</p>
+                    </div>
+
+                    <div
+                        class="group p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:-translate-y-1">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-lg font-bold">
+                                D</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white">deama</h4>
+                                <span class="text-xs text-blue-400 bg-blue-900/30 px-2 py-0.5 rounded">GYG^GYG</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">gygygygygygygygyg，1000att出了20S，质量出奇的高。</p>
+                    </div>
+
+                    <div
+                        class="group p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:-translate-y-1">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center text-lg font-bold">
+                                L</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white">lsz</h4>
+                                <span class="text-xs text-yellow-400 bg-yellow-900/30 px-2 py-0.5 rounded">awa</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">老傻子，132级S丝兰S海星的顶级牢玩家。</p>
+                    </div>
+
+                    <div
+                        class="group p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:-translate-y-1">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center text-lg font-bold">
+                                2</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white">200DamReflect</h4>
+                                <span class="text-xs text-red-400 bg-red-900/30 px-2 py-0.5 rounded">留学生</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">洛杉矶留学生，拥有S 刺果+S玉米+S齿轮的极品dps套，常常利用时差半夜偷吃km。</p>
+                    </div>
+
+                    <div
+                        class="group p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:-translate-y-1 opacity-75">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-slate-600 flex items-center justify-center text-lg font-bold">
+                                E</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white">ericccccccccc</h4>
+                                <span class="text-xs text-slate-400 bg-slate-900/30 px-2 py-0.5 rounded">R.I.P.</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">绝版人物（已退游）。</p>
+                    </div>
+
+                    <div
+                        class="group p-6 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:-translate-y-1 opacity-75">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center text-lg font-bold">
+                                M</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white">MaderStill</h4>
+                                <span class="text-xs text-slate-400 bg-slate-900/30 px-2 py-0.5 rounded">炫压抑</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">卖的死丢是一个可可爱爱乖乖巧巧的小受喵</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="media" class="py-24 bg-white relative">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold text-slate-900 mb-10">精彩瞬间</h2>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <a href="https://space.bilibili.com/3546661938792648" target="_blank"
+                        class="flex flex-col items-center justify-center p-8 bg-pink-50 rounded-2xl border border-pink-100 hover:border-pink-300 hover:shadow-xl transition-all duration-300 group hover:-translate-y-1 w-full sm:w-1/2">
+                        <div
+                            class="w-16 h-16 rounded-full bg-pink-100 text-pink-500 flex items-center justify-center mb-4 group-hover:bg-pink-500 group-hover:text-white transition-colors">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+                                <path
+                                    d="M17.813 4.653h.854c1.51.054 2.769 1.313 2.823 2.823v11.582c-.054 1.51-1.313 2.769-2.823 2.823H5.334c-1.51-.054-2.769-1.313-2.823-2.823V7.476c.054-1.51 1.313-2.769 2.823-2.823h.854V3.693l3.208 1.256c.928.364 1.956.128 2.585-.591l.834-.954c.642-.734 1.765-.678 2.339.117l.792 1.053c.535.711 1.547.962 2.375.589l1.492-.67Zm-1.637 13.567c.725-.66 1.07-1.879.789-2.774-.017-.055-.041-.113-.071-.166-.239-.425-.656-.636-1.077-.636-.217 0-.435.056-.628.167-.384.221-.571.603-.538 1.041.066.866-.372 1.503-1.096 1.636-.78.143-1.455-.45-1.536-1.353-.055-.615.421-1.127 1.018-1.168.647-.044 1.107-.468 1.162-1.116.059-.705-.415-1.192-1.061-1.246-1.144-.097-2.183.695-2.428 1.848-.127.599-.015 1.14.331 1.564-.321.439-.42 1.002-.271 1.621.288 1.195 1.45 1.961 2.573 1.725 1.32-.276 2.335-1.143 2.833.003Zm-7.794.271c1.32.276 2.483-.49 2.771-1.844.127-.599-.015-1.14-.331-1.564.321-.439.42-1.002.271-1.621-.247-1.164-1.285-1.95-2.428-1.848-.646.058-1.115.545-1.061 1.246.055.719.516 1.078 1.162 1.116.598.035 1.074.542 1.018 1.168-.081.903-.756 1.496-1.536 1.353-.724-.133-1.162-.77-1.096-1.636.033-.438-.154-.82-.538-1.041-.193-.111-.411-.167-.628-.167-.421 0-.838.211-1.077.636-.03.053-.054.111-.071.166-.281.895.064 2.114.789 2.774.498-1.146 1.513-.421 2.833-.003Z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-800 group-hover:text-pink-600 transition-colors">公会宣传
+                            Bilibili</h4>
+                        <p class="mt-2 text-slate-500 text-sm">关注 xiehui 谢谢喵</p>
+                    </a>
+
+                    <a href="https://www.bilibili.com/video/BV1ycmvBxECy" target="_blank"
+                        class="flex flex-col items-center justify-center p-8 bg-slate-50 rounded-2xl border border-slate-100 hover:border-slate-300 hover:shadow-xl transition-all duration-300 group hover:-translate-y-1 w-full sm:w-1/2">
+                        <div
+                            class="w-16 h-16 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center mb-4 group-hover:bg-slate-800 group-hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-800 group-hover:text-slate-900 transition-colors">公会血迹
+                            Tomb 实录</h4>
+                        <p class="mt-2 text-slate-500 text-sm">观看 Race 公会多次血祭出 Tomb 的珍贵录像</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-50 border-t border-slate-200 py-12">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-900 via-neutral-800 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-amber-500/20">
+                    <img src="./assets/icon.png" alt="Logo">
+                </div>
+                <span
+                    class="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">
+                    Race 公会
+                </span>
+            </div>
+
+            <nav class="flex gap-6 text-sm font-medium text-slate-500">
+                <a href="#features" class="hover:text-indigo-600 transition-colors">入会要求</a>
+                <a href="#history" class="hover:text-indigo-600 transition-colors">历任会长</a>
+                <a href="#members" class="hover:text-indigo-600 transition-colors">主力成员</a>
+                <a href="#media" class="hover:text-indigo-600 transition-colors">相关材料</a>
+            </nav>
+
+            <p class="text-slate-400 text-sm">© 2026 Race Guild. (By WinRTAS~ awa).</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
